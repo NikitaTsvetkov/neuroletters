@@ -24,7 +24,7 @@ public class NeuronKoh {
     public NeuronKoh(int nInputs, double alpha, double wCriteria, int predictedIter){
         weights = new double[nInputs];
         for (int i = 0; i < weights.length; i++)
-            weights[i] = (Math.random()) - 0.5;
+            weights[i] = (Math.random() * 120) ;
         inN = nInputs;
         a = alpha;
         deltaAlpha = a / predictedIter;
@@ -53,6 +53,7 @@ public class NeuronKoh {
         //if (a < 0)
         //    a = 0.001;
         diffCoor = Math.sqrt(diffCoor);
+        System.out.println(diffCoor);
         weightsDiffHistory.add(diffCoor);
         if (weightsDiffHistory.size() > 20)
             weightsDiffHistory.remove(0);

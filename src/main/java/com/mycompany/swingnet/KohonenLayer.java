@@ -74,10 +74,11 @@ public class KohonenLayer {
             winner.adjustWeights(in, 1);
             for(NeuronKoh n : neurons)
             {
-                double s = 0.1 * n.lastResult / 400;
-                if (Double.isNaN(s))
+                
+                double s =  n.lastResult / (10 * winner.getLastResult());
+                if (Double.isNaN(s) )
                     System.out.println("NAN");
-                if (n != winner)
+                if ((n != winner) && (Math.abs(s) < 1) && (n.lastResult * winner.lastResult > 0))
                     n.adjustWeights(in, s);
             }
             winnerNum = neurons.indexOf(winner);

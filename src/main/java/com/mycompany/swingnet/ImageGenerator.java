@@ -28,7 +28,7 @@ public class ImageGenerator {
     public double[] getRandLetterNoise(double ordM, double invM) throws IOException {
         char letter;
         Random r = new Random();
-        letter = (char) (r.nextInt(26) + 'A');
+        letter = (char) (r.nextInt(5) + 'J');
         BufferedImage letterImage = ImageIO.read(getClass().getResource("/images/" + letter + ".png"));
         double[] result = new double[400];
         int rand;
@@ -62,15 +62,15 @@ public class ImageGenerator {
         lastImage = icon;
         //нормализация
         double d = 0;
-        for (int i = 0; i<result.length;i++)
-        {
-            d += result[i] * result[i];
-        }
-        d = Math.sqrt(d);
-        for (int i = 0; i<result.length;i++)
-        {
-            result[i] =  result[i] / d;
-        }
+        //for (int i = 0; i<result.length;i++)
+        //{
+       //     d += result[i] * result[i];
+       // }
+       //d = Math.sqrt(d);
+       // for (int i = 0; i<result.length;i++)
+        //{
+        //    result[i] =  result[i] / d;
+        //}
         lastArrayImage = result;
         return result;
      }
