@@ -110,4 +110,11 @@ public class KohonenLayer {
         }
         return result;
     }
+    
+    public double[] getOutput()
+    {
+        double[] result = new double[neurons.size()];
+        result[this.winnerNum] = 1;
+        return result;
+    }
 }

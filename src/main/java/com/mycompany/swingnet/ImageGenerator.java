@@ -19,6 +19,7 @@ public class ImageGenerator {
     static ImageGenerator instance;
     public static ImageIcon lastImage;
     public static double [] lastArrayImage;
+    public static char lastLetter;
     public static ImageGenerator getInstance()
     {
         if (instance == null)
@@ -60,19 +61,40 @@ public class ImageGenerator {
         ImageIcon icon = new ImageIcon( letterImage );
         
         lastImage = icon;
-        //нормализация
         double d = 0;
-        //for (int i = 0; i<result.length;i++)
-        //{
-       //     d += result[i] * result[i];
-       // }
-       //d = Math.sqrt(d);
-       // for (int i = 0; i<result.length;i++)
-        //{
-        //    result[i] =  result[i] / d;
-        //}
+        lastLetter = letter;
+        lastArrayImage = result;
+        return result;
+     }
+    public double[] getPureLetter(char letter) throws IOException {
+        BufferedImage letterImage = ImageIO.read(getClass().getResource("/images/" + letter + ".png"));
+        double[] result = new double[400];
+        int m;
+        int rgb ;
+        int red ;
+        int green ;
+        int blue ;
+        for (int i = 0 ; i< 20; i++)
+            for (int k = 0 ; k< 20; k++){
+                rgb = letterImage.getRGB(i, k);
+                red  = (rgb >> 16) & 0xFF;
+                green = (rgb >> 8) & 0xFF;
+                blue = (rgb & 0xFF);
+                result[20*i + k] = ((red + green + blue) / 3) - 128;
+            m = letterImage.getRGB(i, k);
+            }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ImageIcon icon = new ImageIcon( letterImage );
+        
+        lastImage = icon;
+        double d = 0;
+        lastLetter = letter;
         lastArrayImage = result;
         return result;
      }
     
+    public ImageIcon getIconLetter(char letter) throws IOException
+    {
+        return new ImageIcon(ImageIO.read(getClass().getResource("/images/" + letter + ".png")));
+    }
 }

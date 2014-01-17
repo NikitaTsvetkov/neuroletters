@@ -19,6 +19,7 @@ public class MainWindow extends javax.swing.JFrame {
      * Creates new form MainWindow
      */
     KohonenLayer kl;
+    GrossbergLayer gl;
     public MainWindow() {
         initComponents();
         
@@ -64,6 +65,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel2.setText("Мат. ожидание инверсного шума");
 
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(5, 5, 20, 1));
+        jSpinner2.setValue(5);
+
         jLabel3.setText("Нейронов в слое");
 
         jButton1.setText("Обучить");
@@ -91,7 +95,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("300");
+        jTextField1.setText("3000");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -101,6 +105,11 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel6.setText("Итераций обуч.");
 
         jTextField2.setText("0.1");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("вес. критерий");
 
@@ -110,7 +119,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel8.setText("Нач. значение альфа");
 
-        jTextField3.setText("0.1");
+        jTextField3.setText("0.7");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
 
         jTextField4.setText("0.1");
 
@@ -245,6 +259,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             kl.teach(Double.parseDouble(jTextField4.getText()), Double.parseDouble(this.jTextField5.getText()));
+            gl.teach(Double.parseDouble(jTextField4.getText()), Double.parseDouble(this.jTextField5.getText()));
         } catch (Exception ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -257,6 +272,7 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             ImageGenerator.getInstance().getRandLetterNoise(Double.parseDouble(jTextField4.getText()), Double.parseDouble(this.jTextField5.getText()));
             this.jLabel4.setIcon(ImageGenerator.lastImage);
+            
             //ptionPane.showMessageDialog(this, "set");
         } catch (Exception ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,9 +281,13 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       
+        try{
         kl = new KohonenLayer((Integer)jSpinner2.getValue(),400, Double.parseDouble(jTextField3.getText()), Integer.parseInt(jTextField1.getText()), Double.parseDouble(jTextField2.getText()));
-        
+        gl = new GrossbergLayer(kl.neurons.size(), 0.1, 500, kl, 'J');
+        }catch(Exception ex)
+        { 
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -278,7 +298,16 @@ public class MainWindow extends javax.swing.JFrame {
         kl.step(ImageGenerator.lastArrayImage);
         this.jLabel10.setText("Выиграл нейрон: " + String.valueOf(kl.winnerNum));
         this.jLabel12.setText("Вес: " + String.valueOf(kl.winnerNET));
+        jLabel5.setText("" + gl.step(kl.getOutput()));
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
