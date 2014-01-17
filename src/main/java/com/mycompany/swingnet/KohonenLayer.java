@@ -64,25 +64,13 @@ public class KohonenLayer {
             winner = neurons.get(3);
             for(NeuronKoh n : neurons)
             {
-                if (neurons.get(0).weightsDiffHistory.size() > 5)
-                if (neurons.get(0).weightsDiffHistory.get(neurons.get(0).weightsDiffHistory.size() - 1) > 400 )
-                {
-                    System.out.println("FUCK");
-                    //for (int k = 0;k<400;k++)
-                    //    System.out.println(neurons.get(0).weights[k]);
-                    System.out.println("FUCK");    
-                }
+                
                 n.trigger(in);
                 if ((n.getLastResult() > winnerNET)  )
-                {   //if (n.timesWin > 3) {
-                    
-                      //  n.timesWin = 0;
-               // }
-                //else{
+                {   
                     winner = n;
-                    winnerNET = n.getLastResult();}
-                //}
-                
+                    winnerNET = n.getLastResult();
+                }
             }
             winner.adjustWeights(in, 1);
             for(NeuronKoh n : neurons)
