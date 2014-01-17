@@ -21,15 +21,17 @@ public class NeuronKoh {
     List <Double> weightsDiffHistory;
     double weightsDifference = 0.1;
     double deltaAlpha = 0;
-    public NeuronKoh(int nInputs, double alpha, double wCriteria, int predictedIter){
+    int id;
+    public NeuronKoh(int nInputs, double alpha, double wCriteria, int predictedIter, int num){
         weights = new double[nInputs];
         for (int i = 0; i < weights.length; i++)
-            weights[i] = (Math.random() * 120) ;
+            weights[i] = (Math.random() * 120) - 60 ;
         inN = nInputs;
         a = alpha;
         deltaAlpha = a / predictedIter;
         weightsDifference = wCriteria;
         weightsDiffHistory = new ArrayList<Double>();
+        id = num;
     }
     
     public void adjustWeights(double[] vector, double koef)
@@ -53,6 +55,8 @@ public class NeuronKoh {
         //if (a < 0)
         //    a = 0.001;
         diffCoor = Math.sqrt(diffCoor);
+        System.out.print("in neuron");
+        System.out.println(id);
         System.out.println(diffCoor);
         weightsDiffHistory.add(diffCoor);
         if (weightsDiffHistory.size() > 20)

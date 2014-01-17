@@ -77,10 +77,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("jLabel4");
-
-        jLabel5.setText("jLabel5");
-
         jButton2.setText("Сгенерировать картинку для распознавания");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,8 +205,8 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
@@ -282,7 +278,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try{
-        kl = new KohonenLayer((Integer)jSpinner2.getValue(),400, Double.parseDouble(jTextField3.getText()), Integer.parseInt(jTextField1.getText()), Double.parseDouble(jTextField2.getText()));
+        kl = new KohonenLayer((Integer)jSpinner2.getValue(),400, Double.parseDouble(jTextField3.getText()), Integer.parseInt(jTextField1.getText()), Double.parseDouble(jTextField2.getText()), this.jTextArea1);
         gl = new GrossbergLayer(kl.neurons.size(), 0.1, 500, kl, 'J');
         }catch(Exception ex)
         { 

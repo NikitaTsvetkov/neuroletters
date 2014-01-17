@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 /**
  *
  * @author vampire
@@ -18,14 +20,17 @@ public class KohonenLayer {
     public int winnerNum;
     int iterCount = 0;
     int iterTeached;
-    public KohonenLayer(int neuronsCount, int inputsCount, double alpha, int nPredictedIter, double weightCriteria)
+    JTextArea text;
+    public KohonenLayer(int neuronsCount, int inputsCount, double alpha, int nPredictedIter, double weightCriteria, JTextArea fd)
     {
         neurons = new ArrayList<NeuronKoh>();
         for (int i = 1; i<=neuronsCount; i++)
         {
-            neurons.add(new NeuronKoh(inputsCount, alpha, weightCriteria, nPredictedIter ));
+            neurons.add(new NeuronKoh(inputsCount, alpha, weightCriteria, nPredictedIter , i));
         }
         iterTeached = nPredictedIter;
+        text = fd;
+        
     }
     
     public void step(double [] vector){
@@ -54,12 +59,21 @@ public class KohonenLayer {
         NeuronKoh lastWin =  winner;
         while(!teached()){
             in = ImageGenerator.getInstance().getRandLetterNoise(ordM,invM);
-            boolean firstNeuron = true;
-            winnerNET = 0;
+            neurons.get(0).trigger(in);
+            winnerNET = neurons.get(3).lastResult;
+            winner = neurons.get(3);
             for(NeuronKoh n : neurons)
             {
+                if (neurons.get(0).weightsDiffHistory.size() > 5)
+                if (neurons.get(0).weightsDiffHistory.get(neurons.get(0).weightsDiffHistory.size() - 1) > 400 )
+                {
+                    System.out.println("FUCK");
+                    //for (int k = 0;k<400;k++)
+                    //    System.out.println(neurons.get(0).weights[k]);
+                    System.out.println("FUCK");    
+                }
                 n.trigger(in);
-                if ((n.getLastResult() > winnerNET)  || (firstNeuron) || ((n.getLastResult() == winnerNET) && (Math.random() > 0.5)))
+                if ((n.getLastResult() > winnerNET)  )
                 {   //if (n.timesWin > 3) {
                     
                       //  n.timesWin = 0;
@@ -67,7 +81,6 @@ public class KohonenLayer {
                 //else{
                     winner = n;
                     winnerNET = n.getLastResult();}
-                    firstNeuron = false;
                 //}
                 
             }
@@ -86,6 +99,11 @@ public class KohonenLayer {
             if (lastWin == winner)
                 winner.timesWin++;
             iterCount++;
+            if ((Math.round(iterTeached/(iterCount * 1.0)) == 3)||(Math.round(iterTeached/(iterCount * 1.0)) == 2))
+            {    
+                text.append("\n-------------------\n");
+                text.append(this.strRepresentation());
+            }
         }
     }
     
