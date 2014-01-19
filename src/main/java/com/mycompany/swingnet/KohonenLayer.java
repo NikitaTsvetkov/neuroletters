@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author vampire
@@ -21,7 +23,9 @@ public class KohonenLayer {
     int iterCount = 0;
     int iterTeached;
     JTextArea text;
-    public KohonenLayer(int neuronsCount, int inputsCount, double alpha, int nPredictedIter, double weightCriteria, JTextArea fd)
+    JLabel largeLabel;
+    MainWindow mw;
+    public KohonenLayer(int neuronsCount, int inputsCount, double alpha, int nPredictedIter, double weightCriteria, JTextArea fd, JLabel jl, MainWindow m)
     {
         neurons = new ArrayList<NeuronKoh>();
         for (int i = 1; i<=neuronsCount; i++)
@@ -30,7 +34,8 @@ public class KohonenLayer {
         }
         iterTeached = nPredictedIter;
         text = fd;
-        
+        largeLabel = jl;
+        mw = m;
     }
     
     public void step(double [] vector){
@@ -87,12 +92,12 @@ public class KohonenLayer {
             if (lastWin == winner)
                 winner.timesWin++;
             iterCount++;
-            if ((Math.round(iterTeached/(iterCount * 1.0)) == 3)||(Math.round(iterTeached/(iterCount * 1.0)) == 2))
-            {    
-                text.append("\n-------------------\n");
-                text.append(this.strRepresentation());
-            }
+            this.setWeightsImage();
         }
+        mw.getjButton1().enable();
+        mw.getjButton2().enable();
+        mw.getjButton3().enable();
+        mw.getjButton4().enable();
     }
     
     public boolean teached()
@@ -123,4 +128,21 @@ public class KohonenLayer {
         result[this.winnerNum] = 1;
         return result;
     }
+    public void setWeightsImage()
+    {
+        double[][] resWeights = new double[neurons.size()][];
+        for (int i =0;i<neurons.size();i++)
+        {
+            resWeights[i] = neurons.get(i).weights;
+            
+        }
+        largeLabel.setIcon(ImageGenerator.getInstance().createLargeImage(resWeights));
+        SwingUtilities.invokeLater( new Runnable(){
+            @Override
+            public void run(){
+                largeLabel.revalidate();
+                largeLabel.repaint();
+            }
+        });
+    } 
 }
